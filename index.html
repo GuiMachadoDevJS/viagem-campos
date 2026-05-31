@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Campos do Jordão · Família Pelegrino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --serra:#1a3a2a;--serra-mid:#2d6b47;--serra-light:#52a87a;
+  --nevoa:#f0f4f0;--nevoa-dark:#d8e4dc;
+  --ouro:#b8860b;--ouro-light:#d4a843;--madeira:#6b4d2e;
+  --gelo:#e8f5ee;--verde:#1e6b3a;--red:#b83030;
+  --text:#1a2a1e;--muted:#5a7060;--white:#ffffff;
+  --r:14px;--sb:env(safe-area-inset-bottom,0px);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--nevoa);color:var(--text);min-height:100svh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:500;background:var(--serra);display:flex;padding-bottom:var(--sb);border-top:1px solid rgba(255,255,255,0.08);}
+.ntab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0 8px;cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,0.38);gap:3px;transition:color .2s;user-select:none;}
+.ntab.on{color:var(--ouro-light);}
+.ntab:active{background:rgba(255,255,255,0.05);}
+.ntab svg{width:21px;height:21px;}
+.ntab span{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;}
+
+/* PAGES */
+.pg{display:none;}
+.pg.on{display:block;}
+.pgmap{display:none;flex-direction:column;}
+.pgmap.on{display:flex;}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:560px;background:var(--serra);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding-bottom:calc(60px + var(--sb));}
+.hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(82,168,122,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(82,168,122,.07) 1px,transparent 1px);background-size:48px 48px;}
+.hglow{position:absolute;width:340px;height:340px;background:radial-gradient(circle,rgba(82,168,122,.22) 0%,transparent 70%);top:42%;left:50%;transform:translate(-50%,-50%);animation:gpulse 4s ease-in-out infinite;}
+@keyframes gpulse{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}}
+
+/* montanhas SVG no hero */
+.hmount{position:absolute;bottom:calc(60px + var(--sb));left:0;right:0;height:130px;pointer-events:none;}
+.hmount svg{width:100%;height:100%;}
+
+.hcontent{position:relative;z-index:2;text-align:center;padding:0 1.5rem;width:100%;}
+.heyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--serra-light);text-transform:uppercase;margin-bottom:1.2rem;opacity:0;animation:fup .7s .2s ease forwards;}
+.htitle{font-family:'Cormorant Garamond',serif;font-size:clamp(3.4rem,17vw,5.8rem);font-weight:300;line-height:.88;color:var(--white);letter-spacing:-.02em;opacity:0;animation:fup .8s .35s ease forwards;}
+.htitle em{font-style:italic;color:var(--ouro-light);}
+.hdate{font-family:'DM Mono',monospace;font-size:10px;color:var(--ouro-light);margin-top:1.1rem;opacity:0;animation:fup .8s .5s ease forwards;}
+.htrio{display:flex;gap:1.2rem;align-items:center;justify-content:center;margin-top:1.8rem;opacity:0;animation:fup .8s .65s ease forwards;}
+.hperson{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.havatar{width:50px;height:50px;border-radius:50%;border:1.5px solid rgba(184,134,11,.4);display:flex;align-items:center;justify-content:center;font-size:22px;background:rgba(255,255,255,.04);}
+.hname{font-size:11px;font-weight:300;color:rgba(255,255,255,.5);letter-spacing:.08em;}
+.hsep{width:1px;height:28px;background:rgba(255,255,255,.12);}
+.scrollhint{position:absolute;bottom:calc(80px + var(--sb));left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fup .8s 1.1s ease forwards;z-index:2;}
+.scrollhint span{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.22em;color:rgba(255,255,255,.22);text-transform:uppercase;}
+.scrollline{width:1px;height:34px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent);animation:sdrop 1.6s ease-in-out infinite;}
+@keyframes sdrop{0%{opacity:0;transform:scaleY(0);transform-origin:top;}50%{opacity:1;transform:scaleY(1);}100%{opacity:0;transform:scaleY(0);transform-origin:bottom;}}
+@keyframes fup{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* STICKY PROGRESS */
+.progbar{position:sticky;top:0;z-index:100;background:var(--serra);padding:10px 16px 11px;}
+.progwrap{background:rgba(255,255,255,.1);border-radius:999px;height:3px;overflow:visible;position:relative;}
+.progfill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--serra-light),var(--ouro-light));transition:width .6s cubic-bezier(.4,0,.2,1);position:relative;}
+.progfill::after{content:'';position:absolute;right:-5px;top:-4px;width:11px;height:11px;border-radius:50%;background:var(--ouro-light);box-shadow:0 0 10px var(--ouro-light);}
+.proglbls{display:flex;justify-content:space-between;margin-top:7px;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.28);letter-spacing:.08em;}
+.proglbls .cur{color:var(--ouro-light);text-align:center;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 14px 0;}
+.scard{background:var(--white);border-radius:var(--r);padding:11px 6px;text-align:center;border:1px solid var(--nevoa-dark);}
+.snum{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:300;color:var(--serra);line-height:1;}
+.slbl{font-size:9px;color:var(--muted);margin-top:3px;}
+
+/* STOPS */
+.swrap{padding:12px 14px calc(88px + var(--sb));}
+.sentry{display:grid;grid-template-columns:54px 1fr;gap:0 9px;opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease;}
+.sentry.vis{opacity:1;transform:translateY(0);}
+.stl{display:flex;flex-direction:column;align-items:center;padding-top:13px;}
+.stime{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.04em;margin-bottom:7px;white-space:nowrap;}
+.sdot{width:13px;height:13px;border-radius:50%;background:var(--nevoa-dark);border:2px solid var(--nevoa-dark);flex-shrink:0;z-index:2;transition:all .4s ease;}
+.sdot.done{background:var(--serra-light);border-color:var(--serra-light);box-shadow:0 0 0 3px rgba(82,168,122,.15);}
+.sdot.cur{background:var(--ouro);border-color:var(--ouro);animation:dpulse 1.6s ease-in-out infinite;}
+@keyframes dpulse{0%,100%{box-shadow:0 0 0 3px rgba(184,134,11,.2),0 0 14px rgba(184,134,11,.35);}50%{box-shadow:0 0 0 7px rgba(184,134,11,.08),0 0 24px rgba(184,134,11,.5);}}
+.sconn{width:1px;flex:1;min-height:34px;background:var(--nevoa-dark);margin-top:3px;transition:background .4s ease;}
+.sconn.done{background:var(--serra-light);opacity:.4;}
+
+/* CARD */
+.card{background:var(--white);border-radius:var(--r);padding:13px 14px;margin-bottom:11px;border:1px solid var(--nevoa-dark);position:relative;overflow:hidden;transition:box-shadow .3s ease;}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--nevoa-dark);transition:background .4s ease;}
+.card.done::before{background:var(--serra-light);}
+.card.cur::before{background:linear-gradient(to bottom,var(--ouro),var(--ouro-light));}
+.card.cur{border-color:rgba(184,134,11,.28);box-shadow:0 5px 22px rgba(184,134,11,.1);}
+.card.rte{background:var(--nevoa);border-style:dashed;border-color:var(--nevoa-dark);}
+.card.rte::before{display:none;}
+
+.chead{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;}
+.cicon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.cmeta{flex:1;min-width:0;}
+.ccat{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.cname{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:400;line-height:1.1;color:var(--text);}
+.cname em{font-style:italic;color:var(--serra-mid);}
+.cbadge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.cbadge.done{background:rgba(82,168,122,.1);color:var(--serra-mid);}
+.cbadge.cur{background:rgba(184,134,11,.15);color:var(--madeira);}
+.cbadge.up{background:var(--nevoa);color:var(--muted);}
+.caddr{font-size:11px;color:var(--muted);display:flex;align-items:flex-start;gap:4px;margin-bottom:8px;line-height:1.45;}
+.caddr svg{flex-shrink:0;margin-top:1px;opacity:.4;}
+.ctags{display:flex;flex-wrap:wrap;gap:5px;}
+.tag{font-size:10px;padding:3px 9px;border-radius:999px;background:var(--gelo);color:var(--serra-mid);}
+.tag.warn{background:#fff4f4;color:var(--red);}
+.tag.ok{background:#f0faf6;color:var(--verde);}
+.tag.gold{background:#fef8f0;color:var(--madeira);}
+
+.mbtn{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;padding:9px 12px;background:var(--serra);color:var(--white);border-radius:9px;font-size:12px;border:none;cursor:pointer;text-decoration:none;width:100%;transition:background .2s;font-family:'Outfit',sans-serif;}
+.mbtn:active{background:var(--serra-mid);}
+.mbtn svg{width:13px;height:13px;flex-shrink:0;}
+
+/* PHONE BTN */
+.pbtn{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:7px;padding:9px 12px;background:var(--gelo);color:var(--verde);border-radius:9px;font-size:12px;border:1px solid rgba(82,168,122,.25);cursor:pointer;text-decoration:none;width:100%;font-family:'Outfit',sans-serif;}
+
+/* ROUTE CARD */
+.rname{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;}
+.rdesc{font-size:11.5px;color:var(--muted);line-height:1.55;}
+.rwarn{font-size:11px;color:var(--red);display:flex;align-items:flex-start;gap:4px;margin-top:4px;}
+.rok{font-size:11px;color:var(--verde);display:flex;align-items:flex-start;gap:4px;margin-top:4px;}
+
+/* DICA CARD */
+.dica{background:rgba(184,134,11,.06);border:1px solid rgba(184,134,11,.2);border-radius:10px;padding:9px 12px;margin-top:8px;font-size:11px;color:var(--madeira);line-height:1.55;}
+.dica strong{font-weight:500;}
+
+/* MAP PAGE */
+.mhdr{background:var(--serra);padding:13px 16px 11px;}
+.mhtitle{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--white);margin-bottom:2px;}
+.mhsub{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.38);letter-spacing:.12em;text-transform:uppercase;}
+.mfwrap{flex:1;overflow:hidden;}
+.mfwrap iframe{width:100%;height:100%;border:none;display:block;}
+.mopen{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;background:var(--serra-mid);color:var(--white);font-size:13px;border:none;cursor:pointer;text-decoration:none;font-family:'Outfit',sans-serif;transition:background .2s;}
+.mopen:active{background:var(--serra);}
+.mopen svg{width:15px;height:15px;flex-shrink:0;}
+.mwps{background:var(--white);padding:10px 14px;border-top:1px solid var(--nevoa-dark);display:flex;gap:6px;overflow-x:auto;padding-bottom:calc(10px + var(--sb));scrollbar-width:none;}
+.mwps::-webkit-scrollbar{display:none;}
+.wp{flex-shrink:0;font-size:10px;font-family:'DM Mono',monospace;padding:5px 10px;border-radius:999px;border:1px solid var(--nevoa-dark);color:var(--muted);white-space:nowrap;background:var(--nevoa);}
+.wp.done{background:rgba(82,168,122,.1);color:var(--serra-mid);border-color:rgba(82,168,122,.2);}
+.wp.act{background:var(--serra);color:var(--white);border-color:var(--serra);}
+
+/* FAB */
+.fabwrap{position:fixed;bottom:calc(72px + var(--sb));right:16px;display:flex;flex-direction:column;gap:8px;z-index:400;}
+.fab{width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,.18);transition:transform .2s;user-select:none;}
+.fab:active{transform:scale(.92);}
+.fab.adv{background:var(--serra);color:var(--white);font-size:19px;}
+.fab.rst{background:var(--white);color:var(--text);font-size:16px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:calc(78px + var(--sb));left:50%;transform:translateX(-50%) translateY(10px);background:var(--serra);color:var(--white);padding:10px 18px;border-radius:10px;font-size:12.5px;opacity:0;transition:opacity .3s ease,transform .3s ease;pointer-events:none;z-index:600;max-width:88vw;text-align:center;white-space:normal;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* TEMP BADGE */
+.tempbadge{display:inline-flex;align-items:center;gap:5px;background:rgba(82,168,122,.12);border:1px solid rgba(82,168,122,.25);border-radius:999px;padding:4px 12px;font-family:'DM Mono',monospace;font-size:10px;color:var(--serra-light);margin-top:1rem;opacity:0;animation:fup .8s .8s ease forwards;}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--serra-light);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<!-- PAGE ROTEIRO -->
+<div class="pg on" id="pgRot">
+
+  <section class="hero" id="heroS">
+    <div class="hgrid"></div>
+    <div class="hglow"></div>
+    <div class="hcontent">
+      <div class="heyebrow">Família Pelegrino · Guarulhos → Serra</div>
+      <h1 class="htitle">Campos<br><em>do Jordão</em></h1>
+      <div class="hdate" id="hdate">–</div>
+      <div class="tempbadge">🌡 10–15°C · Agasalho na Laura!</div>
+      <div class="htrio">
+        <div class="hperson"><div class="havatar">👨</div><div class="hname">Gui</div></div>
+        <div class="hsep"></div>
+        <div class="hperson"><div class="havatar">👩</div><div class="hname">Denise</div></div>
+        <div class="hsep"></div>
+        <div class="hperson"><div class="havatar">👶</div><div class="hname">Laura</div></div>
+      </div>
+    </div>
+    <div class="scrollhint"><span>ver roteiro</span><div class="scrollline"></div></div>
+    <div class="hmount">
+      <svg viewBox="0 0 375 130" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,100 L60,55 L90,70 L140,30 L175,60 L210,25 L250,65 L290,40 L330,70 L375,45 L375,130 L0,130 Z" fill="rgba(82,168,122,0.12)"/>
+        <path d="M0,110 L40,80 L80,95 L130,60 L170,80 L220,50 L265,80 L305,60 L345,85 L375,70 L375,130 L0,130 Z" fill="rgba(82,168,122,0.18)"/>
+        <path d="M0,120 C80,105 160,125 240,112 C290,104 330,115 375,110 L375,130 L0,130 Z" fill="#f0f4f0" opacity="0.9"/>
+        <path d="M0,125 C100,118 200,130 375,125 L375,130 L0,130 Z" fill="#f0f4f0"/>
+      </svg>
+    </div>
+  </section>
+
+  <div class="progbar">
+    <div class="progwrap"><div class="progfill" id="pf" style="width:0%"></div></div>
+    <div class="proglbls"><span>07:30</span><span class="cur" id="pc">–</span><span>19:00</span></div>
+  </div>
+
+  <div class="stats">
+    <div class="scard"><div class="snum">8</div><div class="slbl">Paradas</div></div>
+    <div class="scard"><div class="snum">11h</div><div class="slbl">Duração</div></div>
+    <div class="scard"><div class="snum">~170</div><div class="slbl">km p/ Campos</div></div>
+    <div class="scard"><div class="snum" id="sdone">0</div><div class="slbl">Feitas</div></div>
+  </div>
+
+  <div class="swrap" id="sList"></div>
+</div>
+
+<!-- PAGE MAPA -->
+<div class="pgmap" id="pgMap">
+  <div class="mhdr">
+    <div class="mhtitle">Rota Completa</div>
+    <div class="mhsub">Guarulhos → Campos do Jordão → Guarulhos</div>
+  </div>
+  <a class="mopen" target="_blank"
+     href="https://www.google.com/maps/dir/R.+Campo+Mour%C3%A3o,+228,+Guarulhos,+SP/Sam%27s+Club+Guarulhos,+R.+Padre+Celestino+400,+Guarulhos/Padaria+Bar%C3%A3o+Cecap,+R.+Aragoiania+299,+Guarulhos/Restaurante+D%27Prata,+R.+Gilia+20,+Campos+do+Jord%C3%A3o/Parque+Capivari,+Campos+do+Jord%C3%A3o/Restaurante+Frango+Assado,+Rodovia+Dutra+Km+115,+Taubat%C3%A9/R.+Campo+Mour%C3%A3o,+228,+Guarulhos,+SP/@-23.0,-46.0,9z/data=!3e0">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    Abrir rota completa no Google Maps
+  </a>
+  <div class="mfwrap" id="mfw"></div>
+  <div class="mwps" id="mwps"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="ntab on" id="tRot" onclick="switchTab('rot')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span>Roteiro</span>
+  </button>
+  <button class="ntab" id="tMap" onclick="switchTab('map')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+    <span>Mapa</span>
+  </button>
+</nav>
+
+<div class="fabwrap" id="fw">
+  <button class="fab adv" id="bAdv">✓</button>
+  <button class="fab rst" id="bRst">↺</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STOPS = [
+  // 1. SAÍDA
+  {id:'saida',type:'stop',time:'07:30',min:450,
+   cat:'Partida',name:'Jd. Scyntilla',extra:'',icon:'🏠',bg:'#dff2ea',
+   addr:'R. Campo Mourão, 228 – Jd. Scyntilla, Guarulhos – SP',
+   dica:'Bebê conforto instalado, bolsa da Laura na mão, agasalhos para todos. Campos estará entre 10–15°C.',
+   tags:[{t:'Ponto de partida',c:''},{t:'Agasalho na Laura ❄️',c:'warn'}],
+   tel:null,mq:'R.+Campo+Mour%C3%A3o+228+Guarulhos+SP'},
+
+  // ROTA 1
+  {id:'r1',type:'route',time:'07:30→08:00',
+   name:"🚗 Scyntilla → Sam's Club",
+   desc:'Direto pela região de Guarulhos · ~15 min',warn:null,ok:null},
+
+  // 2. SAM'S CLUB
+  {id:'sams',type:'stop',time:'08:00',min:480,
+   cat:"Compras",name:"Sam's Club",extra:'Guarulhos',icon:'🛒',bg:'#e8f0fe',
+   addr:"R. Padre Celestino, 400 – Centro, Guarulhos · ☎ (11) 2442-6200",
+   dica:'Abre às 8h. Meta: sair até 09h. Aproveita para comprar água, snacks e algo quentinho para a estrada.',
+   tags:[{t:'Abre 8h',c:'ok'},{t:'~1h de compras',c:'gold'},{t:'Sair até 09h',c:'warn'}],
+   tel:'tel:+551124426200',mq:"Sam%27s+Club+Guarulhos+R.+Padre+Celestino+400"},
+
+  // ROTA 2
+  {id:'r2',type:'route',time:'09:00→09:15',
+   name:'🚗 Sam\'s Club → Padaria Barão (Cecap)',
+   desc:'Direto pela região, ~15 min',warn:null,ok:null},
+
+  // 3. PADARIA BARÃO
+  {id:'padaria',type:'stop',time:'09:15',min:555,
+   cat:'Café da Manhã',name:'Padaria Barão',extra:'Cecap',icon:'🥐',bg:'#fef3e2',
+   addr:'R. Aragoiania, 299 – Cecap, Guarulhos · ☎ (11) 2402-9030',
+   dica:'Café reforçado antes da estrada! Abre desde as 6h aos domingos. Aproveite para amamentar a Laura com calma antes da estrada.',
+   tags:[{t:'Abre 6h',c:'ok'},{t:'~45 min',c:'gold'},{t:'⭐ 4.3',c:'gold'},{t:'Boa pra Laura',c:'ok'}],
+   tel:'tel:+551124029030',mq:'Padaria+Bar%C3%A3o+Cecap+R.+Aragoiania+299+Guarulhos'},
+
+  // ROTA 3 — A PRINCIPAL
+  {id:'r3',type:'route',time:'10:30→12:00',
+   name:'🚗 Guarulhos → Campos · Rota Ayrton Senna',
+   desc:'Ayrton Senna (SP-070) → Carvalho Pinto → SJC → Dutra (10km) → saída Pindamonhangaba → SP-50 → SP-123 (Floriano Rodrigues Pinheiro) → Campos do Jordão · ~1h30',
+   warn:null,
+   ok:'Rota mais tranquila — muito menos caminhões que a Dutra. Estrada larga e bem conservada. Boa hora para Laura dormir no carro.'},
+
+  // 4. D'PRATA
+  {id:'dprata',type:'stop',time:'12:00',min:720,
+   cat:'Almoço',name:"Restaurante D'Prata",extra:'',icon:'🍽️',bg:'#fee8e4',
+   addr:'R. Gilia, 20 – Fonte Simão, Campos do Jordão · ☎ (12) 99748-2053',
+   dica:'⚠️ LIGUE HOJE para reservar mesa. Restaurante pequeno e bem avaliado — domingo enche rápido. Tem estacionamento próprio e gratuito. Fecha às 17h.',
+   tags:[{t:'⭐ 4.7',c:'gold'},{t:'Abre 11h30',c:'ok'},{t:'Fecha 17h',c:'warn'},{t:'Estac. grátis',c:'ok'},{t:'Truta · Fondue',c:''},{t:'Reservar!',c:'warn'}],
+   tel:'tel:+5512997482053',mq:'Restaurante+D%27Prata+R.+Gilia+20+Campos+do+Jord%C3%A3o'},
+
+  // 5. CAPIVARI
+  {id:'capivari',type:'stop',time:'14:00',min:840,
+   cat:'Passeio',name:'Capivari',extra:'Centro de Campos',icon:'🍫',bg:'#f3e8ff',
+   addr:'Parque Capivari – Vila Capivari, Campos do Jordão – SP',
+   dica:'Ir antes das 15h para evitar o pico de movimento. Chocolate quente com marshmallow no Cacau de Campos (★4.4). Compre trufas para levar pra casa!',
+   tags:[{t:'Chocolate quente',c:''},{t:'Trufas artesanais',c:''},{t:'Ir até 15h',c:'warn'},{t:'~1h30',c:'gold'}],
+   tel:null,mq:'Parque+Capivari+Campos+do+Jord%C3%A3o'},
+
+  // ROTA 4 — VOLTA
+  {id:'r4',type:'route',time:'15:30→17:30',
+   name:'🚗 Campos → Taubaté · Rota SP-123 + SP-50',
+   desc:'SP-123 (Floriano Rodrigues Pinheiro) → SP-50 → Pindamonhangaba → Dutra sentido SP · ~1h30',
+   warn:null,
+   ok:'Mesma rota da ida no sentido inverso. Ayrton Senna na volta, sem caminhões. Use o Waze para confirmar.'},
+
+  // 6. FRANGO ASSADO DUTRA
+  {id:'frango',type:'stop',time:'17:30',min:1050,
+   cat:'Parada na volta',name:'Frango Assado',extra:'Dutra · Taubaté',icon:'🍗',bg:'#fff3e0',
+   addr:'Rodovia Dutra, Km 115 – sentido SP, Taubaté – SP',
+   dica:'Parada clássica de estrada! Aberto 24h aos domingos. Banheiro espaçoso — ótimo para trocar a Laura e descansar antes do trecho final (~1h até casa).',
+   tags:[{t:'Aberto 24h',c:'ok'},{t:'Km 115 Dutra',c:''},{t:'Trocar Laura aqui',c:'gold'},{t:'~30 min parada',c:'gold'}],
+   tel:null,mq:'Restaurante+Frango+Assado+Rodovia+Dutra+Km+115+Taubat%C3%A9'},
+
+  // ROTA 5
+  {id:'r5',type:'route',time:'18:00→19:00',
+   name:'🚗 Taubaté → Guarulhos · Dutra + Ayrton Senna',
+   desc:'Dutra sentido SP → Ayrton Senna → Guarulhos · ~1h',
+   warn:null,ok:'Último trecho. Laura provavelmente dormindo. 🎉'},
+
+  // 7. CHEGADA
+  {id:'chegada',type:'stop',time:'19:00',min:1140,
+   cat:'Chegada',name:'Jd. Scyntilla',extra:'',icon:'🏠',bg:'#dff2ea',
+   addr:'R. Campo Mourão, 228 – Jd. Scyntilla, Guarulhos – SP',
+   dica:'Primeira viagem de serra da Laura concluída! 🏔️',
+   tags:[{t:'Missão cumprida! 🎉',c:'ok'}],
+   tel:null,mq:'R.+Campo+Mour%C3%A3o+228+Guarulhos+SP'},
+];
+
+const SO = STOPS.filter(s=>s.type==='stop');
+let ci = parseInt(localStorage.getItem('campos_ri')||'-1');
+if(ci<0){
+  const mn=new Date().getHours()*60+new Date().getMinutes();
+  ci=0;SO.forEach((s,i)=>{if(s.min&&mn>=s.min)ci=i;});
+  localStorage.setItem('campos_ri',ci);
+}
+
+const PIN_SVG = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+const EXT_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="21"/></svg>`;
+const TEL_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.06a16 16 0 0 0 6.03 6.03l1.12-1.12a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
+
+function render(){
+  const list=document.getElementById('sList');
+  list.innerHTML='';let si=0;
+
+  STOPS.forEach((s,idx)=>{
+    const el=document.createElement('div');
+    el.className='sentry';
+
+    if(s.type==='route'){
+      el.innerHTML=`
+      <div class="stl">
+        <div class="stime" style="font-size:9px">${s.time.split('→')[0]}</div>
+        <div class="sdot" style="width:8px;height:8px;background:var(--nevoa-dark);border-color:var(--nevoa-dark)"></div>
+        <div class="sconn"></div>
+      </div>
+      <div>
+        <div class="card rte">
+          <div class="rname">${s.name}</div>
+          <div class="rdesc">${s.desc}</div>
+          ${s.warn?`<div class="rwarn"><span>⚠</span>${s.warn}</div>`:''}
+          ${s.ok?`<div class="rok"><span>✔</span>${s.ok}</div>`:''}
+        </div>
+      </div>`;
+    } else {
+      const st=si<ci?'done':si===ci?'cur':'up';
+      const myI=si; si++;
+      const isLast=idx===STOPS.length-1;
+      const bc=st==='done'?'✓ Feito':st==='cur'?'● Agora':'Em breve';
+      const cc=st==='done'?'sconn done':'sconn';
+
+      el.innerHTML=`
+      <div class="stl">
+        <div class="stime">${s.time}</div>
+        <div class="sdot ${st}"></div>
+        ${!isLast?`<div class="${cc}"></div>`:''}
+      </div>
+      <div>
+        <div class="card ${st}">
+          <div class="chead">
+            <div class="cicon" style="background:${s.bg}">${s.icon}</div>
+            <div class="cmeta">
+              <div class="ccat">${s.cat}</div>
+              <div class="cname">${s.name}${s.extra?` <em>${s.extra}</em>`:''}</div>
+            </div>
+            <span class="cbadge ${st==='up'?'up':st}">${bc}</span>
+          </div>
+          <div class="caddr">${PIN_SVG}${s.addr}</div>
+          <div class="ctags">${s.tags.map(t=>`<span class="tag ${t.c||''}">${t.t}</span>`).join('')}</div>
+          ${s.dica?`<div class="dica"><strong>💡</strong> ${s.dica}</div>`:''}
+          ${s.tel?`<a class="pbtn" href="${s.tel}">${TEL_SVG}Ligar agora</a>`:''}
+          ${s.mq?`<a class="mbtn" href="https://www.google.com/maps/search/${s.mq}" target="_blank">${EXT_SVG}Ver no Maps</a>`:''}
+        </div>
+      </div>`;
+    }
+
+    list.appendChild(el);
+    requestAnimationFrame(()=>{
+      const obs=new IntersectionObserver(ents=>{
+        ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});
+      },{threshold:.08});
+      obs.observe(el);
+    });
+  });
+
+  // progress
+  document.getElementById('pf').style.width=(ci/(SO.length-1)*100)+'%';
+  const cs=SO[ci];
+  document.getElementById('pc').textContent=cs?`${cs.time} · ${cs.name}`:'–';
+  document.getElementById('sdone').textContent=ci;
+
+  // map waypoints
+  document.getElementById('mwps').innerHTML=SO.map((s,i)=>{
+    const c=i<ci?'wp done':i===ci?'wp act':'wp';
+    return `<div class="${c}">${s.time} ${s.name}</div>`;
+  }).join('');
+}
+
+document.getElementById('bAdv').addEventListener('click',()=>{
+  if(ci<SO.length-1){
+    ci++;localStorage.setItem('campos_ri',ci);render();
+    toast(`Próxima: ${SO[ci].name} · ${SO[ci].time}`);
+  } else { toast('🎉 Roteiro concluído! Boa volta pra Guarulhos!'); }
+});
+document.getElementById('bRst').addEventListener('click',()=>{
+  ci=0;localStorage.setItem('campos_ri',0);render();toast('Roteiro reiniciado.');
+});
+
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('on');
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),3000);
+}
+
+let mapLoaded=false;
+function switchTab(tab){
+  document.getElementById('pgRot').className='pg'+(tab==='rot'?' on':'');
+  document.getElementById('pgMap').className='pgmap'+(tab==='map'?' on':'');
+  document.getElementById('tRot').classList.toggle('on',tab==='rot');
+  document.getElementById('tMap').classList.toggle('on',tab==='map');
+  document.getElementById('fw').style.display=tab==='rot'?'flex':'none';
+
+  if(tab==='map'&&!mapLoaded){
+    mapLoaded=true;
+    const fw=document.getElementById('mfw');
+    const h=window.innerHeight-120-60;
+    fw.style.height=h+'px';
+    const iframe=document.createElement('iframe');
+    iframe.loading='lazy';
+    iframe.allowFullscreen=true;
+    iframe.referrerPolicy='no-referrer-when-downgrade';
+    iframe.src='https://www.google.com/maps/embed?pb=!1m40!1m12!1m3!1d491440!2d-45.9!3d-23.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m25!3e0!4m5!1s0x94cef5c3bfb2dfb9%3A0x3bd74cc133ad4d36!2sJardim+Scyntilla%2C+Guarulhos%2C+SP!3m2!1d-23.4318!2d-46.4892!4m5!1s0x94ce5934e7a0df29%3A0xd82fcaf98cfe2dc4!2sSam%27s+Club%2C+R.+Padre+Celestino+400%2C+Guarulhos!3m2!1d-23.4746!2d-46.5259!4m5!1s0x94ce5cfd6879c7b7%3A0x6631992802105505!2sPadaria+Bar%C3%A3o+Cecap%2C+Guarulhos!3m2!1d-23.4495!2d-46.4997!4m5!1s0x94ce5d8b70eb8ba3%3A0x4318483529223157!2sRestaurante+D%27Prata%2C+Campos+do+Jord%C3%A3o!3m2!1d-22.7241!2d-45.5681!5e0!3m2!1spt-BR!2sbr!4v1700000000000';
+    fw.appendChild(iframe);
+  }
+}
+
+function setDate(){
+  const n=new Date();
+  const d=n.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+  const h=n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('hdate').textContent=`${d} · ${h}`;
+}
+setDate();setInterval(setDate,30000);
+
+render();
+</script>
+</body>
+</html>
